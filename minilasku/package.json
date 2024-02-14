@@ -1,0 +1,43 @@
+{
+  "name": "minilasku",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/sortable": "^7.0.2",
+    "@dnd-kit/utilities": "^3.2.1",
+    "@google-cloud/local-auth": "^2.1.0",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@types/node": "20.3.1",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.6",
+    "@vercel/speed-insights": "^1.0.2",
+    "autoprefixer": "10.4.14",
+    "axios": "^1.5.0",
+    "bcrypt": "^5.1.0",
+    "esbuild": "^0.18.8",
+    "eslint": "8.43.0",
+    "eslint-config-next": "13.5.6",
+    "googleapis": "^105.0.0",
+    "iron-session": "^6.3.1",
+    "mongoose": "^7.3.1",
+    "next": "13.5.6",
+    "pdfjs-dist": "^3.10.111",
+    "postcss": "^8.4.32",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "recoil": "^0.7.7",
+    "swr": "^2.2.0",
+    "tailwindcss": "3.3.2",
+    "typescript": "5.1.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0"
+  }
+}
