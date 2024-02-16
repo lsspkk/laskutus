@@ -73,6 +73,11 @@ export default function Home() {
       console.log('loaded file text', text)
       try {
         const orders = JSON.parse(text as string) as Order[]
+        orders.sort((a, b) => {
+          const aDate = a.deliveryDate ?? ''
+          const bDate = b.deliveryDate ?? ''
+          return aDate.localeCompare(bDate)
+        })
         setOrders(orders)
       } catch (e: any) {
         setErrors([...errors, e.message])
@@ -80,6 +85,11 @@ export default function Home() {
       }
     }
     reader.readAsText(file)
+  }
+
+  const onDeleteOrder = (index: number) => {
+    const newOrders = orders.filter((order, i) => i !== index)
+    setTimeout(() => setOrders(newOrders), 100)
   }
 
   return (
@@ -130,7 +140,7 @@ export default function Home() {
       </div>
       <div className='flex flex-col gap-4 mt-2'>
         {orders?.map((order, index) => (
-          <OrderBox key={order.id} order={order} index={index} />
+          <OrderBox key={order.id} order={order} index={index} onDeleteOrder={() => onDeleteOrder(index)} />
         ))}
       </div>
     </NpMain>
@@ -218,14 +228,20 @@ const toShortDate = (date?: string) => {
   return `${parts[0]}.${parts[1]}.`
 }
 
-const OrderBox = ({ order, index }: { order: Order; index: number }) => {
+const OrderBox = ({ order, index, onDeleteOrder }: { order: Order; index: number; onDeleteOrder: () => void }) => {
   const shortDate = toShortDate(order.deliveryDate)
 
   return (
     <div className='flex flex-col gap-4 border border-gray-400 p-2'>
       {order.items && (
         <div className='flex flex-col gap-2'>
-          <NpSubTitle>{shortDate}</NpSubTitle>
+          <div className='flex flex-row gap-4 justify-between'>
+            <NpSubTitle>{shortDate}</NpSubTitle>
+            <NpButton tabIndex={-1} variant='secondary' onClick={onDeleteOrder}>
+              Poista
+            </NpButton>
+          </div>
+
           {order.items.map((item) => (
             <OrderItemBox key={item.id} item={item} order={order} />
           ))}
