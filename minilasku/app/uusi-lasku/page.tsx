@@ -38,7 +38,7 @@ export default function Home() {
       setNewOrderText('')
     } catch (e: any) {
       setErrors([...errors, e.message])
-      setTimeout(() => setErrors(errors.filter((error) => error !== e.message)), 3000)
+      setTimeout(() => setErrors(errors.filter((error) => error !== e.message)), 5000)
     }
   }
   const onClearOrders = () => {
@@ -80,8 +80,8 @@ export default function Home() {
         })
         setOrders(orders)
       } catch (e: any) {
-        setErrors([...errors, e.message])
-        setTimeout(() => setErrors(errors.filter((error) => error !== e.message)), 3000)
+        setErrors([...errors, 'Tiedoston lataus epäonnistui', e.message])
+        setTimeout(() => setErrors(errors.filter((error) => error !== e.message)), 5000)
       }
     }
     reader.readAsText(file)
@@ -103,9 +103,13 @@ export default function Home() {
 
       <NpSubTitle>Lisää laskun tilaukset</NpSubTitle>
 
-      {errors && (
+      {errors.length > 0 && (
         <NpToast onClose={() => setErrors([])}>
-          <div> {errors.join(', ')}</div>
+          {errors.map((error, index) => (
+            <div className='rounded-sm bg-red-200 p-4 min-w-[400px]' key={`error-${index}-${error}`}>
+              {error}
+            </div>
+          ))}
         </NpToast>
       )}
 

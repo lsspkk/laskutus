@@ -8,7 +8,7 @@ export const NpToast = ({ children, onClose }: { children: React.ReactNode; onCl
   }, [onClose])
   return (
     <div
-      className={`fixed bottom-4 right-4 bg-gray-100 p-4 rounded-lg shadow-lg flex items-center gap-4 transition-opacity duration-500`}
+      className={`fixed bottom-4 right-4 bg-red-200 p-4 rounded-lg shadow-lg flex items-center gap-4 transition-opacity duration-500`}
     >
       {children}
     </div>
