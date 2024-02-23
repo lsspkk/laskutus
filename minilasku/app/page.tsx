@@ -10,9 +10,6 @@ export default function Home() {
 				<Link href='/tuotteet'>
 					<NpButton>Tuotteet</NpButton>
 				</Link>
-				<Link href='/vanhat-laskut'>
-					<NpButton>Vanhat Laskut</NpButton>
-				</Link>
 				<Link href='/uusi-lasku'>
 					<NpButton>Uusi Lasku</NpButton>
 				</Link>

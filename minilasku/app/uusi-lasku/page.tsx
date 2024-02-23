@@ -80,6 +80,11 @@ export default function Home() {
 					const bDate = b.deliveryDate ?? ''
 					return aDate.localeCompare(bDate)
 				})
+				orders.forEach((order) => {
+					order.items.forEach((item) => {
+						item.product = products.find((product) => product.eanCode === item.eanCode)
+					})
+				})
 				setOrders(orders)
 			} catch (e: any) {
 				setErrors([...errors, 'Tiedoston lataus epäonnistui', e.message])
