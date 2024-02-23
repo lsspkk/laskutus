@@ -25,6 +25,7 @@ export default function Home() {
 	const [dialog, setDialog] = React.useState<DialogType>('NONE')
 	const fileRef = React.useRef<HTMLInputElement>(null)
 	const [message, setMessage] = useRecoilState<string>(messageAtom)
+	const [hideInput, setHideInput] = React.useState(false)
 
 	const readOrder = async () => {
 		console.log('readOrder', newOrderText)
@@ -96,12 +97,6 @@ export default function Home() {
 	return (
 		<NpMain title='Uusi lasku'>
 			<NpBackButton onClick={() => router.push('/')} />
-
-			{dialog === 'CLEAR_ORDERS' && <ClearOrdersDialog onClose={() => setDialog('NONE')} onClearOrders={onClearOrders} />}
-			{dialog === 'SAVE' && <SaveDialog onClose={() => setDialog('NONE')} onSave={onSave} />}
-
-			<NpSubTitle>Lisää laskun tilaukset</NpSubTitle>
-
 			{errors.length > 0 && (
 				<NpToast onClose={() => setErrors([])}>
 					{errors.map((error, index) => (
@@ -115,33 +110,60 @@ export default function Home() {
 				</NpToast>
 			)}
 
-			<div className='flex flex-col gap-6 w-full'>
-				<NpTextArea
-					rows={10}
-					placeholder='Copy pastaa tähän sähköpostitilaus, ja klikkaa Lisää tilaus -nappia.'
-					value={newOrderText}
-					onChange={(e) => setNewOrderText(e.target.value)}
-				/>
+			{dialog === 'CLEAR_ORDERS' && <ClearOrdersDialog onClose={() => setDialog('NONE')} onClearOrders={onClearOrders} />}
+			{dialog === 'SAVE' && <SaveDialog onClose={() => setDialog('NONE')} onSave={onSave} />}
 
-				<div className='flex flex-row gap-4 w-full justify-end'>
-					<NpButton variant='secondary' onClick={onLoad}>
-						Lataa
-						<input type='file' id='file' onChange={(e) => onLoadFileContent(e)} ref={fileRef} className='hidden' />
-					</NpButton>
-					<NpButton variant='secondary' onClick={() => setDialog('SAVE')}>Tallenna</NpButton>
-					<NpButton variant='secondary' onClick={() => setDialog('CLEAR_ORDERS')}>Tyhjennä</NpButton>
-					<NpButton className='ml-20' onClick={readOrder}>Lisää tilaus</NpButton>
-				</div>
+			<div className='flex flex-row gap-4 w-full justify-between items-center'>
+				<NpSubTitle>Lisää laskun tilaukset</NpSubTitle>
+				<NpTick label='Piilota syöttökenttä' checked={hideInput} onChange={() => setHideInput(!hideInput)} />
 			</div>
+
+			{hideInput === false && (
+				<div className='flex flex-col gap-6 w-full'>
+					<NpTextArea
+						rows={10}
+						placeholder='Copy pastaa tähän sähköpostitilaus, ja klikkaa Lisää tilaus -nappia.'
+						value={newOrderText}
+						onChange={(e) => setNewOrderText(e.target.value)}
+					/>
+
+					<div className='flex flex-row gap-4 w-full justify-end'>
+						<NpButton variant='secondary' onClick={onLoad}>
+							Lataa
+							<input type='file' id='file' onChange={(e) => onLoadFileContent(e)} ref={fileRef} className='hidden' />
+						</NpButton>
+						<NpButton variant='secondary' onClick={() => setDialog('SAVE')}>Tallenna</NpButton>
+						<NpButton variant='secondary' onClick={() => setDialog('CLEAR_ORDERS')}>Tyhjennä</NpButton>
+						<NpButton className='ml-20' onClick={readOrder}>Lisää tilaus</NpButton>
+					</div>
+				</div>
+			)}
 
 			<div className='flex gap-12 mt-10 items-start'>
 				<NpSubTitle className='self-start'>Tilauksia: {orders?.length || 0} kpl</NpSubTitle>
 				<OrderTotal orders={orders} />
 			</div>
 			<div className='flex flex-col gap-4 mt-2'>
-				{orders?.map((order, index) => <OrderBox key={order.id} order={order} index={index} onDeleteOrder={() => onDeleteOrder(index)} />)}
+				{orders?.map((order, index) => (
+					<OrderBox
+						key={order.id}
+						order={order}
+						orderIndex={index}
+						onDeleteOrder={() => onDeleteOrder(index)}
+					/>
+				))}
 			</div>
 		</NpMain>
+	)
+}
+
+const NpTick = ({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) => {
+	const id = label.toLowerCase().replace(' ', '_')
+	return (
+		<div className='flex flex-row gap-2 items-center'>
+			<input id={label} type='checkbox' checked={checked} onChange={onChange} />
+			<label htmlFor={id} onClick={onChange}>{label}</label>
+		</div>
 	)
 }
 
