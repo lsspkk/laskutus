@@ -308,14 +308,16 @@ const SaveDialog = ({ onClose, onSave }: { onClose: () => void; onSave: () => vo
 	)
 }
 
-export const extractOrderNumber = (text: string) => {
+const extractOrderNumber = (text: string) => {
 	const row = text.split('\n').find((line) => line.includes('Tilausnumero'))
 	return row?.split(':')[1].trim()
 }
-export const extractDeliveryDate = (text: string) => {
+
+const extractDeliveryDate = (text: string) => {
 	const row = text.split('\n').find((line) => line.includes('Toimituspäivä'))
 	return row?.split(':')[1].trim()
 }
+
 const extractItemRows = (text: string) => {
 	const rows = text.split('\n').slice(8)
 	const itemsRows = []
@@ -331,7 +333,8 @@ const extractItemRows = (text: string) => {
 	}
 	return itemsRows
 }
-export const extractItems = (text: string, products: Product[], importRules: ImportRule[]): OrderItem[] => {
+
+const extractItems = (text: string, products: Product[], importRules: ImportRule[]): OrderItem[] => {
 	const itemRows = extractItemRows(text)
 	const items: OrderItem[] = itemRows.map((row) => {
 		const columns = row.split('\t')
