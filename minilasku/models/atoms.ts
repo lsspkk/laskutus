@@ -1,8 +1,7 @@
 import { atom } from 'recoil'
-import { Order, Product } from './models'
+import { ImportRule, Order, Product } from './models'
 
-console.log(process.env.NEXT_PUBLIC_PRODUCTS)
-const basicProductData = JSON.parse(process.env.NEXT_PUBLIC_PRODUCTS || '[]') as { name: string; eanCode: string; priceNoTax: string }[]
+const basicProductData = JSON.parse(process.env.NEXT_PUBLIC_PRODUCTS ?? '[]') as { name: string; eanCode: string; priceNoTax: string }[]
 
 const defaultProducts: Product[] = basicProductData.map((p, i) => ({
 	id: i.toString(),
@@ -19,3 +18,7 @@ const defaultOrders: Order[] = []
 export const orderAtom = atom<Order[]>({ key: 'orderAtom', default: defaultOrders })
 
 export const messageAtom = atom<string>({ key: 'messageAtom', default: '' })
+
+const defaultImportRules = JSON.parse(process.env.NEXT_PUBLIC_IMPORT_RULES ?? '[]') as ImportRule[]
+
+export const importRulesAtom = atom<ImportRule[]>({ key: 'importRulesAtom', default: defaultImportRules })

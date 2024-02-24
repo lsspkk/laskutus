@@ -1,7 +1,7 @@
 'use client'
 import { NpButton } from '@/components/NpButton'
 import { messageAtom, orderAtom } from '@/models/atoms'
-import { Order, OrderItem, Product, uuidGenerator } from '@/models/models'
+import { Order, OrderItem } from '@/models/models'
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { NpSubTitle } from '../../components/NpTitle'
@@ -129,40 +129,4 @@ const InvoiceData = (
 			{value}
 		</div>
 	)
-}
-export const extractOrderNumber = (text: string) => {
-	const row = text.split('\n').find((line) => line.includes('Tilausnumero'))
-	return row?.split(':')[1].trim()
-}
-export const extractDeliveryDate = (text: string) => {
-	const row = text.split('\n').find((line) => line.includes('Toimituspäivä'))
-	return row?.split(':')[1].trim()
-}
-const extractItemRows = (text: string) => {
-	const rows = text.split('\n').slice(8)
-	const itemsRows = []
-	let parseRow = false
-	for (const row of rows) {
-		if (row.startsWith('Rivi')) {
-			parseRow = true
-			continue
-		}
-		if (parseRow && row.trim().length > 0) {
-			itemsRows.push(row)
-		}
-	}
-	return itemsRows
-}
-export const extractItems = (text: string, products: Product[]): OrderItem[] => {
-	const itemRows = extractItemRows(text)
-	const items: OrderItem[] = itemRows.map((row) => {
-		const columns = row.split('\t')
-		return {
-			id: uuidGenerator(),
-			eanCode: columns[1],
-			amount: parseInt(columns[4]),
-			product: products.find((product) => product.eanCode === columns[1]),
-		}
-	})
-	return items
 }

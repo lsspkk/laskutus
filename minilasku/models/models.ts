@@ -69,3 +69,19 @@ export interface Order {
 }
 
 export const createOrder = (text: string): Order => ({ id: uuidGenerator(), text, items: [] })
+
+export interface ImportRule {
+	id: string
+	eanCode: string
+	description: string
+	amountMultiplier: number
+	active: boolean
+}
+
+export const createImportRule = (eanCode: string): ImportRule => ({
+	id: uuidGenerator(),
+	eanCode,
+	description: '',
+	amountMultiplier: 1,
+	active: true,
+})
