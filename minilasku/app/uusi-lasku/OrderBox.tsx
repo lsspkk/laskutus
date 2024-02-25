@@ -61,19 +61,19 @@ const OrderItemBox = (
 					<RowLabel>Tuotenimi</RowLabel>
 					<InvoiceData className='w-40' value={item.product?.name} id={id} dataIndex={1} />
 				</div>
-				<div className='flex flex-col gap-0'>
+				<div className='flex flex-col gap-0 w-10'>
 					<RowLabel>Määrä</RowLabel>
 					<InvoiceData className='w-20' value={item.amount.toFixed(0)} id={id} dataIndex={2} />
 				</div>
-				<div className='flex flex-col gap-0'>
+				<div className='flex flex-col gap-0 w-10'>
 					<RowLabel>Yksikkö</RowLabel>
 					<InvoiceData className='w-20' value='kpl' id={id} dataIndex={3} />
 				</div>
-				<div className='flex flex-col gap-0'>
+				<div className='flex flex-col gap-0 w-10'>
 					<RowLabel>Hinta</RowLabel>
 					<InvoiceData className='w-20' value={item.product?.priceNoTax?.toFixed(2).replace('.', '.')} id={id} dataIndex={4} />
 				</div>
-				<div className='flex flex-col gap-0'>
+				<div className='flex flex-col gap-0 w-10'>
 					<RowLabel>ALV%</RowLabel>
 					<InvoiceData className='w-20' value='14' id={id} dataIndex={5} />
 				</div>

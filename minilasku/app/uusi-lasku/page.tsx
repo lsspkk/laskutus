@@ -338,7 +338,7 @@ const extractItems = (text: string, products: Product[], importRules: ImportRule
 	const itemRows = extractItemRows(text)
 	const items: OrderItem[] = itemRows.map((row) => {
 		const columns = row.split('\t')
-		const rule = importRules.find((rule) => columns[4])
+		const rule = importRules.find((rule) => rule.eanCode === columns[4])
 		const amount = rule && rule.active ? parseInt(columns[4]) * rule.amountMultiplier : parseInt(columns[4])
 		return { id: uuidGenerator(), eanCode: columns[1], amount, product: products.find((product) => product.eanCode === columns[1]) }
 	})
